@@ -12,24 +12,20 @@ def get_dataset(dataset_name: str, split: str, shuffle: bool, batch_size: int, i
     return dataset
 
 def visualize_dataset(dataset, num_samples=5):
-    sample_images = next(iter(dataset.take(1)))
-
-    images, labels = sample_images
+    images = next(iter(dataset.take(1)))
 
     rescaled_images = ((images.numpy() + 1) / 2.0 * 255.0).astype(np.uint8)
 
-    plt.figure(figsize=(15, 3))
     for i in range(num_samples):
         plt.subplot(1, num_samples, i + 1)
         plt.imshow(rescaled_images[i])
-        plt.title(f"Label: {labels[i].numpy()}")
         plt.axis('off')
     plt.show()
 
-dataset_name = 'mnist'
+dataset_name = 'celeb_a'
 split = 'train'
 shuffle = True
-batch_size = 64
+batch_size = 256
 image_size = 32
 dataset = get_dataset(dataset_name, split, shuffle, batch_size, image_size)
 
