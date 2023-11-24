@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import jax.random as random
 
-from diffusion_utils import forward_process
+from diffusion_utils import SimpleDiffusion, forward_process
 
 
 def get_dataset(dataset_name: str, split: str, shuffle: bool, batch_size: int, image_size: int):
@@ -37,9 +37,10 @@ visualize_dataset(dataset)
 
 def visualize_noise(dataset):
     sample_image = next(iter(dataset))[0]
+    sd = SimpleDiffusion()
 
     for index, i in enumerate([1, 50, 100, 150, 200]):
-        noisy_image, noise = forward_process(random.PRNGKey(0), sample_image)
+        noisy_image, noise = forward_process(random.PRNGKey(0), sample_image, sd, i)
         rescaled_image = ((noisy_image.numpy() + 1) / 2.0 * 255.0).astype(np.uint8)
         plt.subplot(1, 6, index + 1)
         plt.imshow(rescaled_image, cmap='gray')
