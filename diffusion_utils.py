@@ -3,7 +3,7 @@ import jax.numpy as jnp
 import jax.random as random
 
 class SimpleDiffusion:
-    def __init__(self, timesteps=200, ):
+    def __init__(self, timesteps=200):
         self.timesteps = timesteps
         self.initialize()
     def initialize(self):

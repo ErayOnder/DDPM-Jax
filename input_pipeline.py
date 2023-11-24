@@ -25,11 +25,9 @@ dataset = get_dataset(dataset_name, split, shuffle, batch_size, image_size)
 def visualize_dataset(dataset, num_samples=5):
     images = next(iter(dataset.take(1)))
 
-    rescaled_images = ((images.numpy() + 1) / 2.0 * 255.0).astype(np.uint8)
-
     for i in range(num_samples):
         plt.subplot(1, num_samples, i + 1)
-        plt.imshow(rescaled_images[i], cmap='gray')
+        plt.imshow(images[i], cmap='gray')
         plt.axis('off')
     plt.show()
 
@@ -38,12 +36,10 @@ visualize_dataset(dataset)
 def visualize_noise(dataset):
     sample_image = next(iter(dataset))[0]
     sd = SimpleDiffusion()
-
     for index, i in enumerate([1, 50, 100, 150, 200]):
-        noisy_image, noise = forward_process(random.PRNGKey(0), sample_image, sd, i)
-        rescaled_image = ((noisy_image.numpy() + 1) / 2.0 * 255.0).astype(np.uint8)
+        noisy_image = forward_process(random.PRNGKey(0), sample_image, sd, i)
         plt.subplot(1, 6, index + 1)
-        plt.imshow(rescaled_image, cmap='gray')
+        plt.imshow(noisy_image, cmap='gray')
         plt.axis('off')
     plt.show()
 
